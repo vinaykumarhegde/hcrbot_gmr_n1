@@ -13,7 +13,7 @@ Wheel and Motor information:
 - Gear Ratio: 		51:1
 - Motor RPM: 		8000rpm (No Load)
 - Wheel RPM: 		146rpm (No Load)
-- Wheel Base: 		285mm (b/n centers of two wheels, 308mm outside)
+- Robot Base: 		285mm (b/n centers of two wheels, 308mm outside)
 - Wheel Thickness: 	22mm
 - Encoder Res: 		13PPR 
 - Encoder PPR: 		663PPR

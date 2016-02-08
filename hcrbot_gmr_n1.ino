@@ -40,11 +40,18 @@ void initMotors(){
   mLeft.displayStats(&Serial);
 }
 
+Mobilebase robot(BASEWIDTH, WHEELDIAMETER, MAXSPEED);
+void initMobilebase(){
+  // Mobilebase initialization
+  robot.setPins(R_DIR, R_PWM, L_DIR, L_PWM);
+  //robot.displayStats(&Serial);
+}
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Program Started...");
-  initMotors();
+  //initMotors();
+  initMobilebase();
 }
 
 void processCmd(){
@@ -54,11 +61,19 @@ void processCmd(){
   switch(cmdline[0]){
     case 'A':
     case 'a': Serial.println("Command with A");
+       robot.goForward(128,128);
        break;
     case 'B':
     case 'b': Serial.println("Command with B");
+       robot.goBackward(128,128);
     break;
+    case 'C':
+    case 'c':
+       Serial.println("Command with C");
+       robot.stop();
+       break;
     default: Serial.println("Something else.");
+       robot.stop();
   }
   cmdlen = 0;
   memset(cmdline,0,CMDBUFFER);

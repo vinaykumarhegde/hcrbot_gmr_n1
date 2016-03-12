@@ -39,7 +39,7 @@ void processCmd(){
     break;
     case 'C':
     case 'c':
-       Serial.println("Command with C");
+       Serial.printrln("Command with C");
        robot.stop();
        robot.displayTicks(&Serial);
        break;
@@ -58,13 +58,40 @@ void rightTicks(){
   robot.rMotorTick();
 }
 
+
+char i2c_cmdline[CMDBUFFER];
+void wireReceive(int bytes){ 
+  Serial.print("Received: ");
+  Serial.println(bytes);
+  if(Wire.available()){
+    for(int i=0;i<bytes && i < CMDBUFFER;i++){
+      i2c_cmdline[i] = Wire.read();
+    }
+  }
+}
+void wireRequest(){
+  Serial.println("Serving the request...");
+  switch(i2c_cmdline[0]){
+    case 'A':
+      Wire.write('A');
+      break;
+    case 'B':
+      Wire.write('B');
+      break;
+    default:
+      Wire.write('Z');     
+  }
+}
+
 void setup() {
   Serial.begin(115200);
-  Serial.println("Program Started...");
-  //initMotors();
-  initMobilebase();
-  attachInterrupt(1, leftTicks, RISING);
-  attachInterrupt(0, rightTicks, RISING);
+  Serial.println("Slave program Started...");
+  //initMobilebase();
+  //attachInterrupt(1, leftTicks, RISING);
+  //attachInterrupt(0, rightTicks, RISING);
+  Wire.begin(N1_I2C_ADDR);
+  Wire.onReceive(wireReceive);
+  Wire.onRequest(wireRequest);
 }
 
 void loop() {
